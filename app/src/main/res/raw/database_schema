@@ -1,0 +1,9 @@
+CREATE TABLE Users (
+    firstName TEXT,
+    lastName TEXT,
+    emailAddress TEXT
+);
+
+CREATE TABLE secretStuff (
+    symmetricKey TEXT
+);
