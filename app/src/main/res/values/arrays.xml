@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nav_drawer_items">
+        <item>Shared Preferences</item>
+        <item>Internal storage</item>
+        <item>Encrypted internal storage</item>
+        <item>SqlLite</item>
+        <item>SqlCipher</item>
+        <item>SqlCipher with login</item>
+        <item>SqlCipher with jni</item>
+        <item>Device specific key</item>
+        <item>Tamper detection</item>
+    </string-array>
+</resources>

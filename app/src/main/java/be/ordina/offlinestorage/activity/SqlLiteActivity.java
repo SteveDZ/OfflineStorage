@@ -21,8 +21,7 @@ import be.ordina.offlinestorage.model.User;
 
 public class SqlLiteActivity extends ActionBarActivity {
 
-//    private UserDbHelper userDbHelper;
-    private UserEncryptedDbHelper userDbHelper;
+    private UserDbHelper userDbHelper;
 
     private Button saveInDatabaseButton;
     private EditText firstNameField;
@@ -52,8 +51,7 @@ public class SqlLiteActivity extends ActionBarActivity {
         net.sqlcipher.database.SQLiteDatabase.loadLibs(this);
 
         //This should be done in the background............
-//        userDbHelper = new UserDbHelper(this);
-        userDbHelper = new UserEncryptedDbHelper(this);
+        userDbHelper = new UserDbHelper(this);
 
         firstNameField = (EditText) findViewById(R.id.first_name_field);
         lastNameField = (EditText) findViewById(R.id.last_name_field);
@@ -74,8 +72,7 @@ public class SqlLiteActivity extends ActionBarActivity {
     }
 
     private void saveUserInDatabase(User user) {
-//        SQLiteDatabase userDb = userDbHelper.getWritableDatabase();
-        net.sqlcipher.database.SQLiteDatabase userDb = userDbHelper.getWritableDatabase("password123");
+        SQLiteDatabase userDb = userDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(UserEntry.COLUMN_NAME_FIRST_NAME, user.getFirstName());
@@ -88,27 +85,5 @@ public class SqlLiteActivity extends ActionBarActivity {
         user.setId(newRowId);
 
         Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sql_lite, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -5,6 +5,17 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_internal_storage" android:title="@string/action_internal_storage"
         android:orderInCategory="200" app:showAsAction="never" />
+    <item android:id="@+id/action_encrypted_internal_storage" android:title="@string/action_encrypted_internal_storage"
+        android:orderInCategory="201" app:showAsAction="never" />
     <item android:id="@+id/action_sql_lite" android:title="@string/action_sql_lite"
+        android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/action_sql_cipher" android:title="@string/action_sql_cipher"
         android:orderInCategory="400" app:showAsAction="never" />
-</menu>
+    <item android:id="@+id/action_sql_cipher_fragments" android:title="@string/action_sql_cipher_fragments"
+        android:orderInCategory="500" app:showAsAction="never" />
+    <item android:id="@+id/action_sql_cipher_fragments_jni" android:title="@string/action_sql_cipher_fragments_jni"
+        android:orderInCategory="600" app:showAsAction="never" />
+    <item android:id="@+id/action_device_specific_key" android:title="@string/action_device_specific_key"
+        android:orderInCategory="700" app:showAsAction="never" />
+    <item android:id="@+id/action_tamper_detection" android:title="@string/action_tamper_detection"
+        android:orderInCategory="800" app:showAsAction="never" /></menu>

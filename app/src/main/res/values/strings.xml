@@ -1,19 +1,25 @@
 <resources>
     <string name="app_name">OfflineStorage</string>
+    <string name="pick_option_label">Pick an option from the options menu</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_shared_preferences">Shared Preferences</string>
     <string name="action_internal_storage">Internal Storage</string>
+    <string name="action_encrypted_internal_storage">Encrypted Internal Storage</string>
     <string name="action_external_storage">External Storage</string>
     <string name="action_sql_lite">Sql Lite</string>
+    <string name="action_sql_cipher">Sql Cipher</string>
+    <string name="action_sql_cipher_fragments">Sql Cipher fragments</string>
+    <string name="action_sql_cipher_fragments_jni">Sql Cipher fragments JNI</string>
+    <string name="action_tamper_detection">Tamper detection</string>
+    <string name="action_device_specific_key">Device specific key</string>
 
     <!-- String values for PreferenceActivity-->
     <string name="username_label">Username</string>
     <string name="password_label">Password</string>
 
     <!-- String values for InternalStorageActivity -->
-    <string name="private_key_label">Encryption Key</string>
+    <string name="private_key_label">Private field</string>
     <string name="save_settings_button">Save Settings</string>
 
     <!-- String values for offlineStorageActivity -->
@@ -21,6 +27,18 @@
     <string name="last_name">Last name</string>
     <string name="email">Email</string>
     <string name="save_in_database">Save In Database</string>
+
+    <!-- String values for DbLoginFragment -->
+    <string name="login_button">Login</string>
+
+    <!-- String values for TamperDetectionActivity-->
+    <string name="installed_through_play_store">Is installed through play store</string>
+    <string name="is_debuggable">Is debuggable</string>
+    <string name="runs_on_emulator">Is running on emulator</string>
+    <string name="is_rooted">Is rooted</string>
+
+    <!-- String values for DeviceSpecificKeyActivity -->
+    <string name="device_specific_key_label">Device specific key</string>
 
     <string-array name="storage_array">
         <item>Shared preferences</item>
@@ -33,4 +51,18 @@
     <string name="title_activity_external_storage">ExternalStorageActivity</string>
     <string name="title_activity_sql_lite">SqlLiteActivity</string>
     <string name="title_activity_encrypted_sql_lite">EncryptedSqlLiteActivity</string>
+    <string name="title_activity_sql_cipher">SqlCipherActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_sql_cipher_activity_with_login">SqlCipherActivityWithLogin</string>
+    <string name="title_activity_sql_cipher_activity_with_native_interface">
+        SqlCipherActivityWithNativeInterface
+    </string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_tamper_detection">TamperDetectionActivity</string>
+    <string name="title_activity_device_specific_key">DeviceSpecificKeyActivity</string>
+    <string name="title_activity_encrypted_internal_storage">EncryptedInternalStorageActivity
+    </string>
 </resources>
