@@ -9,16 +9,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
 
 import be.ordina.offlinestorage.R;
+import be.ordina.offlinestorage.fragment.DbLoginFragment;
+import be.ordina.offlinestorage.fragment.DeviceSpecificKeyFragment;
+import be.ordina.offlinestorage.fragment.EncryptedInternalStorageFragment;
+import be.ordina.offlinestorage.fragment.InternalStorageFragment;
+import be.ordina.offlinestorage.fragment.SharedPreferencesFragment;
 import be.ordina.offlinestorage.fragment.SqlCipherFragment;
 import be.ordina.offlinestorage.fragment.SqlCipherFragmentHardcodedPassword;
+import be.ordina.offlinestorage.fragment.SqlLiteFragment;
+import be.ordina.offlinestorage.fragment.TamperDetectionFragment;
 
 
-public class OfflineStorageActivity extends ActionBarActivity {
+public class OfflineStorageActivity extends ActionBarActivity implements DbLoginFragment.OnLoginListener{
+
+    static {
+        System.loadLibrary("local-module");
+    }
 
     private ListView storageOptionsList;
 
@@ -26,6 +38,8 @@ public class OfflineStorageActivity extends ActionBarActivity {
 
     private DrawerLayout drawerLayout;
     private ListView drawer;
+
+    private native String getPasswordFromNativeInterface();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +60,57 @@ public class OfflineStorageActivity extends ActionBarActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position, id);
+            selectItem(position);
         }
     }
 
     /** Swaps fragments in the main content view */
-    private void selectItem(int position, long id) {
+    private void selectItem(int position) {
+        String message = "";
+
+        Fragment fragment = null;
+        switch(position){
+            case 0:
+                fragment = new SharedPreferencesFragment();
+//                message = "action_shared_preferences";
+                break;
+            case 1:
+                fragment = new InternalStorageFragment();
+//                message = "action_internal_storage";
+                break;
+            case 2:
+                fragment = new EncryptedInternalStorageFragment();
+//                message = "action_encrypted_internal_storage";
+                break;
+            case 3:
+                fragment = new SqlLiteFragment();
+//                message = "action_sql_lite";
+                break;
+            case 4:
+                fragment = new SqlCipherFragmentHardcodedPassword();
+//                message = "action_sql_cipher";
+                break;
+            case 5:
+                fragment = new DbLoginFragment();
+//                message = "action_sql_cipher_fragments";
+                break;
+            case 6:
+                fragment = SqlCipherFragment.newInstance(getPasswordFromNativeInterface().toCharArray());
+//                message = "action_sql_cipher_fragments_jni";
+                break;
+            case 7:
+                fragment = new DeviceSpecificKeyFragment();
+//                message = "action_device_specific_key";
+                break;
+            case 8:
+                fragment = new TamperDetectionFragment();
+//                message = "action_tamper_detection";
+                break;
+        }
+
+//        Toast.makeText(OfflineStorageActivity.this, message, Toast.LENGTH_SHORT).show();
+
         // Create a new fragment and specify the planet to show based on position
-        Fragment fragment = new SqlCipherFragmentHardcodedPassword();
 //        Bundle args = new Bundle();
 //        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 //        fragment.setArguments(args);
@@ -70,52 +127,12 @@ public class OfflineStorageActivity extends ActionBarActivity {
         drawerLayout.closeDrawer(drawer);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_offline_storage, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        Intent intent = null;
-//        switch(id){
-//            case R.id.action_shared_preferences:
-//                intent = new Intent(this, SharedPreferencesActivity.class);
-//                break;
-//            case R.id.action_internal_storage:
-//                intent = new Intent(this, InternalStorageActivity.class);
-//                break;
-//            case R.id.action_sql_lite:
-//                intent = new Intent(this, SqlLiteActivity.class);
-//                break;
-//            case R.id.action_sql_cipher:
-//                intent = new Intent(this, SqlCipherActivity.class);
-//                break;
-//            case R.id.action_sql_cipher_fragments:
-//                intent = new Intent(this, SqlCipherActivityWithLogin.class);
-//                break;
-//            case R.id.action_sql_cipher_fragments_jni:
-//                intent = new Intent(this, SqlCipherActivityWithNativeInterface.class);
-//                break;
-//            case R.id.action_tamper_detection:
-//                intent = new Intent(this, TamperDetectionActivity.class);
-//                break;
-//            case R.id.action_device_specific_key:
-//                intent = new Intent(this, DeviceSpecificKeyActivity.class);
-//                break;
-//            case R.id.action_encrypted_internal_storage:
-//                intent = new Intent(this, EncryptedInternalStorageActivity.class);
-//                break;
-//        }
-//
-//        startActivity(intent);
-//        return true;
-//    }
+    @Override
+    public void onLogin(String username, char[] password) {
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = SqlCipherFragment.newInstance(password);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+    }
 }

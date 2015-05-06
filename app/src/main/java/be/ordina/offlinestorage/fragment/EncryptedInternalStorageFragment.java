@@ -1,11 +1,12 @@
-package be.ordina.offlinestorage.activity;
+package be.ordina.offlinestorage.fragment;
 
-import android.os.PersistableBundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,12 +16,9 @@ import org.apache.commons.codec.binary.Base64;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -31,7 +29,6 @@ import java.security.spec.KeySpec;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -42,7 +39,7 @@ import javax.crypto.spec.SecretKeySpec;
 import be.ordina.offlinestorage.R;
 import be.ordina.offlinestorage.model.Settings;
 
-public class EncryptedInternalStorageActivity extends ActionBarActivity {
+public class EncryptedInternalStorageFragment extends Fragment {
 
     private static final String FILENAME = "encrypted_private_file";
     private static final int ITERATION_COUNT = 1000;
@@ -60,19 +57,26 @@ public class EncryptedInternalStorageActivity extends ActionBarActivity {
     private Settings settings;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_internal_storage);
 
         random = new SecureRandom();
-
         settings = readSettingsFromFile();
-        privateField = (EditText) findViewById(R.id.private_key_field);
+
+        setRetainInstance(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View fragment = inflater.inflate(R.layout.activity_internal_storage, container, false);
+
+        privateField = (EditText) fragment.findViewById(R.id.private_key_field);
         if (settings != null) {
             privateField.setText(settings.getPrivateField());
         }
 
-        storeFileButton = (Button) findViewById(R.id.save_settings_button);
+        storeFileButton = (Button) fragment.findViewById(R.id.save_settings_button);
         storeFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,16 +84,16 @@ public class EncryptedInternalStorageActivity extends ActionBarActivity {
                 settings.setPrivateField(privateField.getText().toString());
                 byte[] settingsJson = settings.toJson().toString().getBytes();
 
-
                 writeEncryptedFile(settingsJson);
-//                writeBytesToFile(Base64.encodeBase64(encryptedBytes));
             }
         });
+
+        return fragment;
     }
 
     private Settings readSettingsFromFile() {
         try {
-            FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fis = getActivity().openFileInput(FILENAME);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 
             StringBuilder builder = new StringBuilder();
@@ -128,12 +132,12 @@ public class EncryptedInternalStorageActivity extends ActionBarActivity {
 
     private void writeBytesToFile(byte[] fileBytes) {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME, MODE_PRIVATE);
+            FileOutputStream fos = getActivity().openFileOutput(FILENAME, Context.MODE_PRIVATE);
             fos.write(fileBytes);
         } catch (IOException ioException) {
 
         } finally {
-            Toast.makeText(this, "Settings saved to file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Settings saved to file", Toast.LENGTH_SHORT).show();
         }
     }
 
