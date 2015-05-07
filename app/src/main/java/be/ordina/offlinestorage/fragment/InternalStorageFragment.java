@@ -14,8 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import be.ordina.offlinestorage.R;
@@ -34,9 +37,31 @@ public class InternalStorageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        settings = new Settings();
+        settings = readFromFile();
+        if(settings == null) {
+            settings = new Settings();
+        }
 
         setRetainInstance(true);
+    }
+
+    private Settings readFromFile() {
+        try {
+            FileInputStream fis = getActivity().openFileInput(FILENAME);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
+
+            String line="";
+            StringBuilder builder = new StringBuilder();
+            while((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            return Settings.fromJson(builder.toString());
+        }catch(IOException exception){
+            //BLAHliuhlfksjhdf
+            return null;
+        }
     }
 
     @Nullable
@@ -45,6 +70,8 @@ public class InternalStorageFragment extends Fragment {
         View fragment = inflater.inflate(R.layout.activity_internal_storage, container, false);
 
         privateField = (EditText)fragment.findViewById(R.id.private_key_field);
+        privateField.setText(settings.getPrivateField());
+
         saveSettingsButton = (Button)fragment.findViewById(R.id.save_settings_button);
         saveSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +86,8 @@ public class InternalStorageFragment extends Fragment {
 
     private void saveSettingsToFile() {
         try {
-            Charset charset = Charset.forName("UTF-16");
             FileOutputStream fos = getActivity().openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            fos.write(settings.toJson().toString().getBytes(charset));
+            fos.write(settings.toJson().toString().getBytes());
         }catch (IOException ioException) {
 
         }finally{

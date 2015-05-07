@@ -54,7 +54,15 @@
     <string name="title_activity_sql_cipher">SqlCipherActivity</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="introduction">
+        <b>Introduction</b> \n \n
+        This app is a sample app which contains code samples for storing offline content in Android. \n \n
+        There is a drawer which you can slide out from the left which contains a bunch of menu items \n
+        containing simple screens that demonstrate some of these offline storage solutions.
+
+        The source code can be found on: https://github.com/SteveDZ/OfflineStorage.git
+        The relevant parts of the code can be found in the fragments and utils packages.
+    </string>
     <string name="title_activity_sql_cipher_activity_with_login">SqlCipherActivityWithLogin</string>
     <string name="title_activity_sql_cipher_activity_with_native_interface">
         SqlCipherActivityWithNativeInterface

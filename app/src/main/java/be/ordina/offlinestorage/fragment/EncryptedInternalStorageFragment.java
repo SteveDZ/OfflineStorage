@@ -110,7 +110,7 @@ public class EncryptedInternalStorageFragment extends Fragment {
             byte[] keyBytes = generateKey(salt);
             SecretKey key = new SecretKeySpec(keyBytes, "AES");
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
             IvParameterSpec ivParams = new IvParameterSpec(iv);
             cipher.init(Cipher.DECRYPT_MODE, key, ivParams);
             byte[] plaintext = cipher.doFinal(cipherBytes);
@@ -148,7 +148,7 @@ public class EncryptedInternalStorageFragment extends Fragment {
             byte[] salt = generateSalt();
             byte[] keyBytes = generateKey(salt);
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
 
             //Initialisation vector
             byte[] iv = new byte[cipher.getBlockSize()];
@@ -159,7 +159,6 @@ public class EncryptedInternalStorageFragment extends Fragment {
 
             cipher.init(Cipher.ENCRYPT_MODE, key, ivParams);
             byte[] ciphertext = cipher.doFinal(text);
-            byte seperator = (byte) ']';
 
             byte[] fileBytes = createFileString(ciphertext, iv, salt);
 

@@ -23,6 +23,7 @@ import be.ordina.offlinestorage.fragment.SharedPreferencesFragment;
 import be.ordina.offlinestorage.fragment.SqlCipherFragment;
 import be.ordina.offlinestorage.fragment.SqlCipherFragmentHardcodedPassword;
 import be.ordina.offlinestorage.fragment.SqlLiteFragment;
+import be.ordina.offlinestorage.fragment.StartFragment;
 import be.ordina.offlinestorage.fragment.TamperDetectionFragment;
 
 
@@ -55,6 +56,15 @@ public class OfflineStorageActivity extends ActionBarActivity implements DbLogin
                 android.R.layout.simple_list_item_1, navDrawerItems));
 
         drawer.setOnItemClickListener(new DrawerItemClickListener());
+
+        replaceContentFragment(StartFragment.newInstance());
+    }
+
+    private void replaceContentFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -66,60 +76,39 @@ public class OfflineStorageActivity extends ActionBarActivity implements DbLogin
 
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
-        String message = "";
-
         Fragment fragment = null;
         switch(position){
             case 0:
                 fragment = new SharedPreferencesFragment();
-//                message = "action_shared_preferences";
                 break;
             case 1:
                 fragment = new InternalStorageFragment();
-//                message = "action_internal_storage";
                 break;
             case 2:
                 fragment = new EncryptedInternalStorageFragment();
-//                message = "action_encrypted_internal_storage";
                 break;
             case 3:
                 fragment = new SqlLiteFragment();
-//                message = "action_sql_lite";
                 break;
             case 4:
                 fragment = new SqlCipherFragmentHardcodedPassword();
-//                message = "action_sql_cipher";
                 break;
             case 5:
                 fragment = new DbLoginFragment();
-//                message = "action_sql_cipher_fragments";
                 break;
             case 6:
                 fragment = SqlCipherFragment.newInstance(getPasswordFromNativeInterface().toCharArray());
-//                message = "action_sql_cipher_fragments_jni";
                 break;
             case 7:
                 fragment = new DeviceSpecificKeyFragment();
-//                message = "action_device_specific_key";
                 break;
             case 8:
                 fragment = new TamperDetectionFragment();
-//                message = "action_tamper_detection";
                 break;
         }
 
-//        Toast.makeText(OfflineStorageActivity.this, message, Toast.LENGTH_SHORT).show();
-
-        // Create a new fragment and specify the planet to show based on position
-//        Bundle args = new Bundle();
-//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-//        fragment.setArguments(args);
-
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+        replaceContentFragment(fragment);
 
         // Highlight the selected item, update the title, and close the drawer
         drawer.setItemChecked(position, true);
@@ -129,10 +118,6 @@ public class OfflineStorageActivity extends ActionBarActivity implements DbLogin
 
     @Override
     public void onLogin(String username, char[] password) {
-        FragmentManager fragmentManager = getFragmentManager();
-        Fragment fragment = SqlCipherFragment.newInstance(password);
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .commit();
+        replaceContentFragment(SqlCipherFragment.newInstance(password));
     }
 }

@@ -11,7 +11,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.OfflineStorageActivity"
             android:label="@string/app_name" >
@@ -20,38 +20,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".fragment.InternalStorageFragment"
-            android:label="@string/title_activity_internal_storage" >
-        </activity>
-        <activity
-            android:name=".fragment.SharedPreferencesFragment"
-            android:label="@string/title_activity_shared_preferences" >
-        </activity>
-        <activity
-            android:name=".fragment.SqlLiteFragment"
-            android:label="@string/title_activity_sql_lite" >
-        </activity>
-        <activity
-            android:name=".fragment.SqlCipherFragmentHardcodedPassword"
-            android:label="@string/title_activity_sql_cipher" >
-        </activity>
-        <activity
-            android:name=".activity.SqlCipherActivityWithNativeInterface"
-            android:label="@string/title_activity_sql_cipher_activity_with_native_interface" >
-        </activity>
-        <activity
-            android:name=".fragment.TamperDetectionFragment"
-            android:label="@string/title_activity_tamper_detection" >
-        </activity>
-        <activity
-            android:name=".fragment.DeviceSpecificKeyFragment"
-            android:label="@string/title_activity_device_specific_key" >
-        </activity>
-        <activity
-            android:name=".fragment.EncryptedInternalStorageFragment"
-            android:label="@string/title_activity_encrypted_internal_storage" >
         </activity>
     </application>
 
