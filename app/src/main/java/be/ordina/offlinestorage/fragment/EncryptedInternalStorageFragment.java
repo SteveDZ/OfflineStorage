@@ -56,6 +56,8 @@ public class EncryptedInternalStorageFragment extends Fragment {
 
     private Settings settings;
 
+    private native String getPasswordFromNativeInterface();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,8 +142,6 @@ public class EncryptedInternalStorageFragment extends Fragment {
             Toast.makeText(getActivity(), "Settings saved to file", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private native String getPasswordFromNativeInterface();
 
     private void writeEncryptedFile(byte[] text) {
         try {

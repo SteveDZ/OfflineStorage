@@ -31,7 +31,7 @@ public class SqlLiteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        net.sqlcipher.database.SQLiteDatabase.loadLibs(getActivity());
+//        net.sqlcipher.database.SQLiteDatabase.loadLibs(getActivity());
 
         //This should be done in the background............
         userDbHelper = new UserDbHelper(getActivity());
